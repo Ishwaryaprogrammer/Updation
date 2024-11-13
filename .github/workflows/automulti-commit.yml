@@ -1,0 +1,32 @@
+name: Multiple Commits Within Two Hours
+
+# Schedule to run the workflow 8 times within two hours (every 15 minutes)
+on:
+  schedule:
+    - cron: '0 0 * * *'    # First commit at the start (00:00 UTC)
+    - cron: '15 0 * * *'   # Second commit (00:15 UTC)
+    - cron: '30 0 * * *'   # Third commit (00:30 UTC)
+    - cron: '45 0 * * *'   # Fourth commit (00:45 UTC)
+    - cron: '0 1 * * *'    # Fifth commit (01:00 UTC)
+    - cron: '15 1 * * *'   # Sixth commit (01:15 UTC)
+    - cron: '30 1 * * *'   # Seventh commit (01:30 UTC)
+    - cron: '45 1 * * *'   # Eighth commit (01:45 UTC)
+
+jobs:
+  daily_commits:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Update or create a file to commit
+      - name: Update Dummy File
+        run: |
+          echo "Last updated: $(date)" > dummy.txt
+          git config --global user.name "Ishwaryaprogrammer"
+          git config --global user.email "ishwaryasuresh2004@gmail.com"
+          git add dummy.txt
+          git commit -m "Scheduled commit: $(date)"
+          git push
