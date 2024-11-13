@@ -1,0 +1,25 @@
+name: Daily Commit
+
+# Schedule to run this workflow every day at midnight UTC
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  daily_commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Update or create a file to commit
+      - name: Update Dummy File
+        run: |
+          echo "Last updated: $(date)" > dummy.txt
+          git config --global user.name "Ishwaryaprogrammer"
+          git config --global user.email "ishwaryasuresh2004@gmail.com"
+          git add dummy.txt
+          git commit -m "Daily contribution: $(date)"
+          git push
